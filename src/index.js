@@ -10,19 +10,15 @@ const server = createServer();
 // use express middleware to handle cookies (JWT)
 server.express.use(cookieParser());
 
-// decode the JWT so we can get the user id on each request
 server.express.use((req, res, next) => {
-    // pull the token out of the request
     const { token } = req.cookies;
-
-    // decode the token
-    if(token) {
-        const { userID } = jwt.verify(token, process.env.APP_SECRET);
-        //put the user id on the req for further requests to access
-        req.userID = userID;
+    if (token) {
+      const { userId } = jwt.verify(token, process.env.APP_SECRET);
+      // put the userId onto the req for future requests to access
+      req.userId = userId;
     }
     next();
-});
+  });
 
 server.start({
     cors: {
