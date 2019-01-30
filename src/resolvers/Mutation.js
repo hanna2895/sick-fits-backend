@@ -78,6 +78,10 @@ const Mutations = {
         // 4. set the cookie with the token 
         return user;
         // 5. return the user
+    },
+    signout(parent, args, ctx, info) {
+        ctx.response.clearCookie('token'); // from cookieParser middleware
+        return { message: 'Goodbye!'}
     }
 };
 
