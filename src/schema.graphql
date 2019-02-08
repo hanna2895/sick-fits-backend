@@ -19,7 +19,8 @@ type Query {
     items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, first: Int): [Item]!
     item(where: ItemWhereUniqueInput!): Item
     itemsConnection(where: ItemWhereInput): ItemConnection!
-    me: User
+    me: User,
+    users: [User]!
 }
 
 type User {
