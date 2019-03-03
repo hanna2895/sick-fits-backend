@@ -4,6 +4,7 @@ const { randomBytes } = require('crypto'); // built in module for node
 const { promisify }  = require('util'); // from node's util library - takes a callback and turns it into a promise
 const { transport, makeANiceEmail } = require('../mail');
 const { hasPermission } = require('../utils');
+const stripe = require('../stripe');
 
 
 const Mutations = {
@@ -248,6 +249,42 @@ const Mutations = {
         return ctx.db.mutation.deleteCartItem({
             where: { id: args.id },
         }, info);
+    },
+    async createOrder(parent, args, ctx, info) {
+        // 1. query the current user and make sure they are signed in
+        const { userId } = ctx.request;
+        if(!userId) throw new Error('You must be signed in to complete this order.');
+        const user = await ctx.db.query.user({where: { id: userId }}, 
+            `{ 
+                id 
+                name 
+                email 
+                cart { 
+                    id 
+                    quantity 
+                    item { 
+                        title 
+                        price 
+                        id 
+                        description 
+                        image
+                    }
+                }}`
+            );
+        // 2. recalculate the total for the price
+        const amount = user.cart.reduce((tally, cartItem) => tally + cartItem.item.price * cartItem.quantity, 0 );
+        console.log(`Going to charge for a total of ${amount}`)
+        console.log(process.env.STRIPE_SECRET)
+        // 3. create the stripe charge (turn token into money)
+        const charge = await stripe.charges.create({
+            amount,
+            currency: 'USD',
+            source: args.token,
+        })
+        // 4. convert the cart items to order items 
+        // 5. create the order 
+        // 6. clear the user's cart. delete cartItems
+        // 7. return the order to the client
     }
 };
 
