@@ -25,8 +25,8 @@ type Item {
   image: String
   largeImage: String
   price: Int!
-  createdAt: DateTime! @createdAt
-  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime!
+  updatedAt: DateTime! 
   user: User!
 }
 
@@ -54,6 +54,6 @@ type Order {
   total: Int!
   user: User!
   charge: String!
-  createdAt: DateTime! @createdAt
-  updatedAt: DateTime! @updatedAt
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
