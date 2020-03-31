@@ -74,7 +74,7 @@ const Mutations = {
         ctx.response.cookie('token', token, {
             httpOnly: true,
             maxAge: 1000 * 60 * 60 * 24 * 365,
-            SameSite: "None",
+            SameSite: "none",
             Secure: true
         })
         // return user to the browser
@@ -96,7 +96,7 @@ const Mutations = {
         ctx.response.cookie('token', token, {
             httpOnly: true,
             maxAge: 1000 * 60 * 60 * 24 * 365,
-            SameSite: "None",
+            SameSite: "none",
             Secure: true
         })
         // 4. set the cookie with the token 
@@ -166,8 +166,10 @@ const Mutations = {
         // 7. set the jwt cookie
         ctx.response.cookie('token', token, {
             httpOnly: true,
-            maxAge: 1000 * 60 * 60 * 24 * 365
-        });
+            maxAge: 1000 * 60 * 60 * 24 * 365,
+            SameSite: "none",
+            Secure: true
+        })
         // 8. return the new user
         return updatedUser;
         // 9. have a beer. 
