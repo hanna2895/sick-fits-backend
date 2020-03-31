@@ -74,7 +74,8 @@ const Mutations = {
         ctx.response.cookie('token', token, {
             httpOnly: true,
             maxAge: 1000 * 60 * 60 * 24 * 365,
-            SameSite: "lax"
+            SameSite: "None",
+            Secure: true
         })
         // return user to the browser
         return user;
@@ -95,7 +96,8 @@ const Mutations = {
         ctx.response.cookie('token', token, {
             httpOnly: true,
             maxAge: 1000 * 60 * 60 * 24 * 365,
-            SameSite: "lax"
+            SameSite: "None",
+            Secure: true
         })
         // 4. set the cookie with the token 
         return user;
