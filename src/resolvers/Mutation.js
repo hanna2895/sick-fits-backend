@@ -13,6 +13,7 @@ const Mutations = {
             throw new Error('You must be logged in to do that');
         }
 
+        console.log({...args}, 'the args')
         const item = await ctx.db.mutation.createItem({
             data: {
                 // this is how we create a relationship between the item and the user
